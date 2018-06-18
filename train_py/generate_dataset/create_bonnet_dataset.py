@@ -53,6 +53,15 @@ np.random.shuffle(random_array)
 num_of_valid_set = int(len(img_list) * args.val_per / 100)
 valid_data_set = img_list[random_array[:num_of_valid_set]]
 
+# get index of test dataset
+valid_data_set_idx = list()
+for f in valid_data_set:
+    valid_data_set_idx.append(list(img_list).index(f))
+
+# delete the test data set from img_list
+img_list = np.delete(img_list, np.array(valid_data_set_idx))
+lbl_list = np.delete(lbl_list, np.array(valid_data_set_idx))
+
 # create folders
 # create Bonnet_dataset
 args.des_path = os.path.join(args.des_path, "Bonnet_dataset")
