@@ -1,0 +1,31 @@
+buff: true
+buff_nr: 2
+color_map:
+  0:
+  - 0
+  - 0
+  - 0
+  76:
+  - 0
+  - 0
+  - 255
+  149:
+  - 0
+  - 255
+  - 0
+data_dir: /home/zaher/Github/bonnet/train_py/test_dataset/
+force_remap: true
+force_resize: true
+img_prop:
+  depth: 14
+  height: 360
+  width: 512
+label_map:
+  0: soil
+  76: weed
+  149: plant
+label_remap:
+  0: 2
+  76: 1
+  149: 0
+name: general

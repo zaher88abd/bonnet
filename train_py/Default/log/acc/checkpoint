@@ -1,0 +1,3 @@
+model_checkpoint_path: "model-best-acc.ckpt"
+all_model_checkpoint_paths: "../iou/model-best-iou.ckpt"
+all_model_checkpoint_paths: "model-best-acc.ckpt"

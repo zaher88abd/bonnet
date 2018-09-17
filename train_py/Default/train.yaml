@@ -1,0 +1,4 @@
+{acc_report_epochs: 10, batch_size: 1, decay1: 0.9, decay2: 0.99, epsilon: 1.0e-08,
+  gamma: 2, gpus: 1, grads: speed, ignore_crap: false, loss: median_freq, lr: 0.001,
+  lr_decay: 10, lr_rate: 1.5, max_epochs: 1, save_imgs: true, summary: false, summary_freq: 50,
+  w_decay: 0.0}
