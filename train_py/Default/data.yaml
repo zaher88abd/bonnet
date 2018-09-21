@@ -13,11 +13,11 @@ color_map:
   - 0
   - 255
   - 0
-data_dir: /home/zaher/Github/bonnet/train_py/test_dataset/
+data_dir: /home/hallab/Github/project/bonnet/train_py/test_dataset
 force_remap: true
 force_resize: true
 img_prop:
-  depth: 14
+  depth: 6
   height: 360
   width: 512
 label_map:

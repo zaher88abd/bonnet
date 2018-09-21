@@ -69,9 +69,30 @@ class ImgFetcher(threading.Thread):
         return img, lbl
 
     def merge_image(self, path, name, img, lbl):
+        '''
+        Mearge0 /home/zaher/Github/bonnet/train_py/test_dataset/test/img/remap/1022_right.jpg
+        '''
+        path_ = os.path.dirname(os.path.dirname(os.path.dirname(path)))
+        print("test", path)
+        print("Mearge0", path_)
         rimg_name = name.split("_")[0]+'_right.jpg'
         rlbl_name = name.split("_")[0]+'_right.png'
-        print("test",path)
+        rimg_name = path_+'/rimg/remap/'+rimg_name
+        rlbl_name = path_+'/rlbl/remap/'+rlbl_name
+        rimg = cv2.imread(rimg_name, cv2.IMREAD_COLOR)
+        rlbl = cv2.imread(rlbl_name, cv2.IMREAD_COLOR)
+        # # augment
+        if self.name == "ImgBufftrain":
+            rimg, rlbl = self.augment(rimg, rlbl)
+        print("readd image", rimg_name)
+        print("shape lbl", lbl.shape)
+        print("shape rlbl", rlbl.shape)
+        img_ = np.concatenate((img, rimg), axis=2)
+        lbl_ = np.concatenate((lbl, rlbl), axis=2)
+        print("shape img_", img_.shape)
+        print("shape img_", lbl_.shape)
+        # lbl_ = lbl/6+rlbl/6
+        return img_, lbl_
 
     def run(self):
         # loop infinitely, the queue will block
@@ -80,14 +101,18 @@ class ImgFetcher(threading.Thread):
             # print self.dataset.images[self.dataset.idx]
             img = cv2.imread(
                 self.dataset.images[self.dataset.idx], cv2.IMREAD_COLOR)
-            lbl = cv2.imread(self.dataset.labels[self.dataset.idx], 0)
+            print("type", self.dataset.images[self.dataset.idx])
+            print("type", type(self.dataset.images[self.dataset.idx]))
+            lbl = cv2.imread(
+                self.dataset.labels[self.dataset.idx], cv2.IMREAD_COLOR)
             name = os.path.basename(self.dataset.images[self.dataset.idx])
 
-            # augment
-            if self.name == "ImgBufftrain":
-                img, lbl = self.augment(img, lbl)
+            # # augment
+            # if self.name == "ImgBufftrain":
+            #     img, lbl = self.augment(img, lbl)
 
-            self.merge_image(self.dataset.images[self.dataset.idx], name, img, lbl)
+            img, lbl = self.merge_image(
+                self.dataset.images[self.dataset.idx], name, img, lbl)
 
             # queue if there is still room, otherwise block
             self.dataset.img_q.put(img)  # blocking

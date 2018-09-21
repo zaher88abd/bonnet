@@ -225,26 +225,6 @@ def dir_to_data(directory, label_map, label_remap, new_shape=None, force_remap=F
             for key in label_remap:
                 lbl[lbl == key] = label_remap[key]
             cv2.imwrite(directory + '/rlbl/remap/' + f, lbl)
-    # __________________________________________________________________________
-
-    # remap all images to jpg and resized to proper size, so that we open faster
-    new_images = []
-    if not os.path.exists(img_remap_dir):
-        print("Jpeg remap non existent, creating...")
-        os.makedirs(img_remap_dir)
-        for f in images:
-            img = cv2.imread(img_dir + f, cv2.IMREAD_UNCHANGED)
-            f = os.path.splitext(f)[0] + '.jpg'
-            new_images.append(f)
-            if(new_shape is not None):
-                img = cv2.resize(
-                    img, new_shape, interpolation=cv2.INTER_LINEAR)
-            cv2.imwrite(img_remap_dir + f, img)
-    else:
-        for f in images:
-            f = os.path.splitext(f)[0] + '.jpg'
-            new_images.append(f)
-
     # ___________________________________________________________________________________
     # remap all images to jpg and resized to proper size, so that we open faster
     new_images = []
@@ -265,6 +245,26 @@ def dir_to_data(directory, label_map, label_remap, new_shape=None, force_remap=F
             new_images.append(f)
     # ___________________________________________________________________________________
 
+    # remap all images to jpg and resized to proper size, so that we open faster
+    new_images = []
+    if not os.path.exists(img_remap_dir):
+        print("Jpeg remap non existent, creating...")
+        os.makedirs(img_remap_dir)
+        for f in images:
+            img = cv2.imread(img_dir + f, cv2.IMREAD_UNCHANGED)
+            f = os.path.splitext(f)[0] + '.jpg'
+            new_images.append(f)
+            if(new_shape is not None):
+                img = cv2.resize(
+                    img, new_shape, interpolation=cv2.INTER_LINEAR)
+            cv2.imwrite(img_remap_dir + f, img)
+    else:
+        for f in images:
+            f = os.path.splitext(f)[0] + '.jpg'
+    # __________________________________________________________________________
+            new_images.append(f)
+
+
     # final percentage calculation
     print("Total number of pixels: %d" % (total_pix))
     for key in content_perc:
@@ -283,6 +283,7 @@ def dir_to_data(directory, label_map, label_remap, new_shape=None, force_remap=F
     labels = [directory + '/lbl/remap/' + name for name in labels]
 
     print(len(new_images))
+    print("path the new image",new_images[0])
     print(len(labels))
     # order to ensure matching (necessary?)
     assert(len(new_images) == len(labels))
